@@ -1,5 +1,9 @@
+import Header from "@/app/components/Header";
+
 export default function Home() {
   return (
-    <div>Test</div>
+    <main className="container">
+      <Header />
+    </main>
   );
 }
