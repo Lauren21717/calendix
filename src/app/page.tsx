@@ -1,12 +1,10 @@
-import Header from "@/app/components/Header";
 import Hero from "@/app/components/Hero";
 
 export default function Home() {
   return (
-    <main className="container">
-      <Header />
+    <>
       <Hero />
-      <section className="text-center mt-24">
+      <section className="text-center mt-32">
         <p className="text-gray-600">Trusted by those companies: </p>
         <div className="flex gap-8 *:h-7 mt-6 justify-center">
           <img src="https://images.ctfassets.net/lh3zuq09vnm2/vHHaKAaEeQuNcucdWM50V/23351da3b1ad9d7483ddf11aed64b4b7/Mixpanel.svg" alt="Mixpanel" />
@@ -15,6 +13,6 @@ export default function Home() {
           <img src="https://images.ctfassets.net/lh3zuq09vnm2/1FA2gEsWeu2MyGSy6Qp6ao/859833105cdd6ed5cc75eb5e4bd9cff7/HelloFresh.svg" alt="HelloFresh" />
         </div>
       </section>
-    </main>
+    </>
   );
 }
