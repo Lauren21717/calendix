@@ -3,6 +3,7 @@
 import { CalendarDays } from "lucide-react";
 import Link from "next/link";
 import { session } from "@/app/libs/session";
+import RightNav from "@/app/components/RightNav";
 
 
 
@@ -21,21 +22,7 @@ export default async function Header() {
                     <Link href={'/pricing'}>Pricing</Link>
                 </nav>
             </div>
-            {email && (
-                <nav className="flex items-center gap-4">
-                    <Link href={'/about'} className="bg-blue-600 text-white py-2 px-4 rounded-full">
-                        Dashboard
-                    </Link>
-                    <Link href={'/api/logout'}>Logout</Link>
-                </nav>
-            )}
-            {!email && (
-                <nav className="flex items-center gap-4">
-                    <Link href={'/features'}>Sign in</Link>
-                    <Link href={'/about'} className="bg-blue-600 text-white py-2 px-4 rounded-full">Get started</Link>
-                </nav>
-            )}
-
+            <RightNav email={email} />
         </header>
     );
 }
