@@ -2,7 +2,7 @@
 
 import { CalendarDays } from "lucide-react";
 import Link from "next/link";
-import { session } from "@/app/libs/session";
+import { session } from "@/libs/session";
 import RightNav from "@/app/components/RightNav";
 
 

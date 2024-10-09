@@ -1,4 +1,4 @@
-import { nylas, nylasConfig } from "@/app/libs/nylas";
+import { nylas, nylasConfig } from "@/libs/nylas";
 import { redirect } from "next/navigation";
 
 export async function GET() {

@@ -1,4 +1,4 @@
-import { session } from "@/app/libs/session";
+import { session } from "@/libs/session";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 

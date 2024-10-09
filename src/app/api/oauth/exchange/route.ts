@@ -1,5 +1,5 @@
-import { nylas, nylasConfig } from "@/app/libs/nylas";
-import { session } from "@/app/libs/session";
+import { nylas, nylasConfig } from "@/libs/nylas";
+import { session } from "@/libs/session";
 import { NextApiRequest } from "next";
 import { redirect } from "next/navigation";
 
