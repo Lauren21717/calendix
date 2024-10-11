@@ -1,8 +1,8 @@
 'use client';
-import Link from "next/link"
+import Link from "next/link";
 
 export default function RightNav({ email }: { email: string }) {
-    const hasLoggedOut = location.href.includes('logged-out');
+    const hasLoggedOut = typeof window !== 'undefined' && window.location.href.includes('logged-out');
     if (email && !hasLoggedOut) {
         return (
             <nav className="flex items-center gap-4">
@@ -12,7 +12,8 @@ export default function RightNav({ email }: { email: string }) {
                 <a href={'/api/logout'}>Logout</a>
             </nav>
         );
-    } else {
+    }
+    else {
         return (
             <nav className="flex items-center gap-4">
                 <Link href={'/api/auth'}>Sign in</Link>
@@ -20,5 +21,4 @@ export default function RightNav({ email }: { email: string }) {
             </nav>
         );
     }
-
 }

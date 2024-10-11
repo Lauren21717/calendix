@@ -25,13 +25,15 @@
   width: calc(100% + 16px);
 }
 
-form input,
+form input[type="text"],
+form input[type="number"],
 form select,
 form textarea{
   @apply border rounded-md;
 }
 
-form input,
+form input[type="text"],
+form input[type="number"],
 form textarea{
   @apply block w-full p-2;
 }
