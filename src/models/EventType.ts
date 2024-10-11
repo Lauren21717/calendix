@@ -4,6 +4,7 @@ import mongoose, { model, models, Schema } from "mongoose";
 const FromToSchema = new mongoose.Schema({
     from: String,
     to: String,
+    active: Boolean,
 });
 
 

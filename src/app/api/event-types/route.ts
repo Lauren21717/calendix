@@ -7,6 +7,9 @@ export async function POST(req: NextRequest) {
     await mongoose.connect(process.env.MONGODB_URI);
     const data = await req.json();
     const email = await session().get('email');
-    const eventTypeDoc = await EventTypeModel.create({email, ...data});
-    return Response.json(eventTypeDoc);
+    if (email) {
+        const eventTypeDoc = await EventTypeModel.create({ email, ...data });
+        return Response.json(eventTypeDoc);
+    }
+    return Response.json(false);
 }
