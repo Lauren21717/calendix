@@ -4,24 +4,26 @@ import { BookingTimes, WeekdayName } from "@/libs/types";
 import { IEventType } from "@/models/EventType";
 import axios from "axios";
 import clsx from "clsx";
+import { ArrowDownToLine } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import EventTypeDelete from "./EventTypeDelete";
 
 const weekdaysNames: WeekdayName[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
-export default function EventTypeForm({doc}:{doc?:IEventType}) {
+export default function EventTypeForm({ doc }: { doc?: IEventType }) {
     const [title, setTitle] = useState(doc?.title || '');
     const [description, setDescription] = useState(doc?.description || '');
     const [length, setLength] = useState(doc?.length || 30);
     const [bookingTimes, setBookingTimes] = useState<BookingTimes>(doc?.bookingTimes || {});
     const router = useRouter();
 
-    async function handleSubmit(e:FormEvent) {
+    async function handleSubmit(e: FormEvent) {
         e.preventDefault();
         const id = doc?._id;
         const request = doc?._id ? axios.put : axios.post;
-        const data = {title, description, length, bookingTimes};
-        const response = await request('/api/event-types', {...data, id});
+        const data = { title, description, length, bookingTimes };
+        const response = await request('/api/event-types', { ...data, id });
         if (response.data) {
             router.push('/dashboard/event-types');
             router.refresh();
@@ -36,7 +38,7 @@ export default function EventTypeForm({doc}:{doc?:IEventType}) {
         setBookingTimes(oldBookingTimes => {
             const newBookingTimes: BookingTimes = { ...oldBookingTimes };
             if (!newBookingTimes[day]) {
-                newBookingTimes[day] = { from: '00:00', to: '00:00',  active: false};
+                newBookingTimes[day] = { from: '00:00', to: '00:00', active: false };
             }
 
             // @ts-ignore
@@ -117,8 +119,12 @@ export default function EventTypeForm({doc}:{doc?:IEventType}) {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-center">
+            <div className="flex gap-4 justify-center">
+                {doc && (
+                    <EventTypeDelete id={doc._id as string}/>
+                )}
                 <button type="submit" className="btn-blue !px-8">
+                    <ArrowDownToLine size={16} />
                     Save
                 </button>
             </div>

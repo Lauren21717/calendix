@@ -47,10 +47,14 @@ span.label {
   @apply text-gray-600 text-xs font-bold uppercase;
 }
 
-.btn-gray{
+.btn-gray {
   @apply inline-flex gap-1 items-center bg-gray-200 rounded-full px-4 py-2;
 }
 
 .btn-blue{
   @apply inline-flex gap-1 items-center bg-blue-600 text-white rounded-full px-4 py-2;
+}
+
+.btn-red {
+  @apply inline-flex gap-1 items-center bg-red-500 text-white rounded-full px-4 py-2;
 }

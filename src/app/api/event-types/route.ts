@@ -1,7 +1,6 @@
 import { session } from "@/libs/session";
 import { EventTypeModel } from "@/models/EventType";
 import mongoose from "mongoose";
-import { revalidatePath } from "next/cache";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -28,4 +27,12 @@ export async function PUT(req: NextRequest) {
         return Response.json(eventTypeDoc);
     }
     return Response.json(false);
+}
+
+export async function DELETE(req: NextRequest) {
+    const url = new URL(req.url);
+    const id = url.searchParams.get('id');
+    await mongoose.connect(process.env.MONGODB_URI as string);
+    await EventTypeModel.deleteOne({_id: id});
+    return Response.json(true);
 }
