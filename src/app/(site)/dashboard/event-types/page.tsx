@@ -24,7 +24,7 @@ export default async function EventTypesPage() {
                 {eventTypes.map(et => (
                     <Link
                         className="block p-2 border-b"
-                        href={'/event-types/edit/' + et.id}>
+                        href={'/dashboard/event-types/edit/' + et.id}>
                         {et.title}
                     </Link>
                 ))}
