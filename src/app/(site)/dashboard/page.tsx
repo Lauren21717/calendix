@@ -1,12 +1,15 @@
-import DashboardNav from "@/app/components/DashboardNav"
+import DashboardNav from "@/app/components/DashboardNav";
+import ProfileForm from "@/app/components/ProfileForm";
+import { session } from "@/libs/session";
+import { connect } from "mongoose";
 
-export default function DashboardPage() {
+
+export default async function DashboardPage() {
+    
     return (
-        <>
+        <div>
             <DashboardNav />
-            <div>
-                booked events listed here...
-            </div>
-        </>
+            <ProfileForm />
+        </div>
     );
 }

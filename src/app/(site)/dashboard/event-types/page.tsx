@@ -27,7 +27,7 @@ export default async function EventTypesPage() {
                             {et.title}
                         </Link>
                         <span className="text-gray-400 ml-4 text-sm">
-                            http://localhost:3000/username/{et.uri}
+                            {process.env.NEXT_PUBLIC_URL}/username/{et.uri}
                         </span>
                     </div>
                 ))}
