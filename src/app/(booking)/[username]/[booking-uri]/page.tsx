@@ -1,3 +1,4 @@
+import TimePicker from "@/app/components/TimePicker";
 import { EventTypeModel } from "@/models/EventType";
 import { ProfileModel } from "@/models/Profile";
 import { Clock, Info } from "lucide-react";
@@ -42,7 +43,8 @@ export default async function BookingPage(props: PageProps) {
                         </div>
                     </div>
                     <div className="bg-white/80 grow p-8">
-                        right
+                        <TimePicker 
+                            bookingTimes={JSON.parse(JSON.stringify(etDoc.bookingTimes))} />
                     </div>
                 </div>
             </div>

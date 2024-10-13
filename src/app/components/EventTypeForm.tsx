@@ -1,5 +1,6 @@
 'use client';
 import TimeSelect from "@/app/components/TimeSelect";
+import { weekdaysNames } from "@/libs/shared";
 import { BookingTimes, WeekdayName } from "@/libs/types";
 import { IEventType } from "@/models/EventType";
 import axios from "axios";
@@ -9,7 +10,6 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import EventTypeDelete from "./EventTypeDelete";
 
-const weekdaysNames: WeekdayName[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
 export default function EventTypeForm(
     {
