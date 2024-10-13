@@ -1,25 +1,22 @@
 'use server'
 import DashboardNav from "@/app/components/DashboardNav";
-import { EventType, EventTypeModel } from "@/models/EventType";
+import { EventTypeModel } from "@/models/EventType";
 import { session } from "@/libs/session";
 import mongoose from "mongoose";
-import EventTypeForm from "@/app/components/EventTypeForm";
 import Link from "next/link";
 import { Plus } from "lucide-react";
+import { ProfileModel } from "@/models/Profile";
 
 
 export default async function EventTypesPage() {
 
     await mongoose.connect(process.env.MONGODB_URI as string);
     const email = await session().get('email');
-    if (typeof email !== 'string') {
-        throw new Error('Invalid email: expected a string.');
-    }
     const eventTypes = await EventTypeModel.find({ email });
+    const profile = await ProfileModel.findOne({email});
 
     return (
         <div>
-            <DashboardNav />
             <div className="border border-b-0 rounded-xl overflow-hidden my-4">
                 {eventTypes.map(et => (
                     <div className="block p-2 border-b">
@@ -27,7 +24,7 @@ export default async function EventTypesPage() {
                             {et.title}
                         </Link>
                         <span className="text-gray-400 ml-4 text-sm">
-                            {process.env.NEXT_PUBLIC_URL}/username/{et.uri}
+                            {process.env.NEXT_PUBLIC_URL}/{profile.username}/{et.uri}
                         </span>
                     </div>
                 ))}

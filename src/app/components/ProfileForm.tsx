@@ -1,12 +1,18 @@
 'use client';
 
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
-export default function ProfileForm() {
-    const [username, setUsername] = useState('');
+export default function ProfileForm({
+    existingUsername = ''
+}: {
+    existingUsername?: string
+}) {
+    const [username, setUsername] = useState(existingUsername);
     const [isSaved, setIsSaved] = useState(false);
     const [isError, setIsError] = useState(false);
+    const router = useRouter();
     async function handleSubmit(e: FormEvent) {
         e.preventDefault();
         setIsSaved(false);
@@ -14,6 +20,10 @@ export default function ProfileForm() {
         const response = await axios.put('/api/profile', { username });
         if (response.data) {
             setIsSaved(true);
+            if (!existingUsername && username) {
+                router.push('/dashboard/event-types');
+                router.refresh();
+            }
         }
         else {
             setIsError(true);

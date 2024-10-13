@@ -11,7 +11,14 @@ import EventTypeDelete from "./EventTypeDelete";
 
 const weekdaysNames: WeekdayName[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
-export default function EventTypeForm({ doc }: { doc?: IEventType }) {
+export default function EventTypeForm(
+    {
+        doc,
+        username = ''
+    }: {
+        doc?: IEventType;
+        username?: string;
+    }) {
     const [title, setTitle] = useState(doc?.title || '');
     const [description, setDescription] = useState(doc?.description || '');
     const [length, setLength] = useState(doc?.length || 30);
@@ -49,11 +56,11 @@ export default function EventTypeForm({ doc }: { doc?: IEventType }) {
     }
 
     return (
-        <form className="p-2 bg-gray-200 rounded-lg" onSubmit={handleSubmit}>
+        <form className="p-2 bg-gray-200 rounded-lg mt-4" onSubmit={handleSubmit}>
             {doc && (
-                <p className="my-2 text-sm text-gray-500">URL: {process.env.NEXT_PUBLIC_URL}/username/{doc.uri}</p>
+                <p className="my-2 text-sm text-gray-500">URL: {process.env.NEXT_PUBLIC_URL}/{username}/{doc.uri}</p>
             )}
-            
+
             <div className="grid grid-cols-2 gap-4">
                 <div>
                     <label>
@@ -124,7 +131,7 @@ export default function EventTypeForm({ doc }: { doc?: IEventType }) {
             </div>
             <div className="flex gap-4 justify-center">
                 {doc && (
-                    <EventTypeDelete id={doc._id as string}/>
+                    <EventTypeDelete id={doc._id as string} />
                 )}
                 <button type="submit" className="btn-blue !px-8">
                     <ArrowDownToLine size={16} />

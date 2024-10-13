@@ -1,5 +1,7 @@
 import EventTypeForm from "@/app/components/EventTypeForm";
+import { session } from "@/libs/session";
 import { EventTypeModel } from "@/models/EventType";
+import { ProfileModel } from "@/models/Profile";
 import { connect } from "mongoose";
 
 type PageProps = {
@@ -8,15 +10,20 @@ type PageProps = {
     };
 };
 
-export default async function EditEventTypePage({params}: PageProps) {
+export default async function EditEventTypePage({ params }: PageProps) {
     await connect(process.env.MONGODB_URI as string);
-    const eventTypeDoc = await EventTypeModel.findOne({_id: params.id});
+    const email = await session().get('email');
+    const eventTypeDoc = await EventTypeModel.findOne({ _id: params.id });
+    const profileDoc = await ProfileModel.findOne({ email });
     if (!eventTypeDoc) {
         return '404';
     }
     return (
         <div>
-            <EventTypeForm doc={JSON.parse(JSON.stringify(eventTypeDoc))}/>
+            <EventTypeForm
+                username={profileDoc.username || ''}
+                doc={JSON.parse(JSON.stringify(eventTypeDoc))}
+            />
         </div>
     );
 }
