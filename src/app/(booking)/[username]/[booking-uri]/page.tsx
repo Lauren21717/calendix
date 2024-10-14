@@ -43,8 +43,10 @@ export default async function BookingPage(props: PageProps) {
                         </div>
                     </div>
                     <div className="bg-white/80 grow p-8">
-                        <TimePicker 
-                            bookingTimes={JSON.parse(JSON.stringify(etDoc.bookingTimes))} />
+                        <TimePicker
+                            length={etDoc.length}
+                            bookingTimes={JSON.parse(JSON.stringify(etDoc.bookingTimes))}
+                        />
                     </div>
                 </div>
             </div>

@@ -2,16 +2,27 @@
 import { weekdaysShortNames } from "@/libs/shared";
 import { BookingTimes, WeekdayName } from "@/libs/types";
 import clsx from "clsx";
-import { addDays, addMonths, format, getDay, isEqual, isFuture, isLastDayOfMonth, isToday, subMonths } from "date-fns";
+import {
+    addDays, addMinutes, addMonths,
+    format, getDay, isBefore, isEqual,
+    isFuture, isLastDayOfMonth, isToday,
+    subMonths
+} from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 
-export default function TimePicker({ bookingTimes }: { bookingTimes: BookingTimes }) {
+export default function TimePicker({
+    bookingTimes,
+    length,
+}: {
+    bookingTimes: BookingTimes;
+    length: number;
+}) {
     const currentDate = new Date();
     const [activeMonthDate, setActiveMonthDate] = useState(currentDate);
     const [activeMonthIndex, setActiveMonthIndex] = useState(activeMonthDate.getMonth());
     const [activeYear, setActiveYear] = useState(activeMonthDate.getFullYear());
-    const [selectedDay, setSelectedDay] = useState<null|Date>(null);
+    const [selectedDay, setSelectedDay] = useState<null | Date>(null);
 
     const firstDayOfCurrentMonth = new Date(activeYear, activeMonthIndex, 1);
     const firstDayOfCurrentMonthWeekdayIndex = getDay(firstDayOfCurrentMonth);
@@ -23,6 +34,31 @@ export default function TimePicker({ bookingTimes }: { bookingTimes: BookingTime
         const lastAddedDay = daysNumbers[daysNumbers.length - 1];
         daysNumbers.push(addDays(lastAddedDay, 1));
     } while (!isLastDayOfMonth(daysNumbers[daysNumbers.length - 1]));
+
+    let selectedDayConfig = null;
+    const bookingHours = [];
+    if (selectedDay) {
+        const weekdayNameIndex = format(selectedDay, "EEEE").toLowerCase() as WeekdayName;
+        selectedDayConfig = bookingTimes?.[weekdayNameIndex];
+        if (selectedDayConfig) {
+
+            const [hoursFrom, minutesFrom] = selectedDayConfig.from.split(':');
+            const selectedDayFrom = new Date(selectedDay);
+            selectedDayFrom.setHours(parseInt(hoursFrom));
+            selectedDayFrom.setMinutes(parseInt(minutesFrom));
+
+            const selectedDayTo = new Date(selectedDay);
+            const [hoursTo, minutesTo] = selectedDayConfig.to.split(':');
+            selectedDayTo.setHours(parseInt(hoursTo));
+            selectedDayTo.setMinutes(parseInt(minutesTo));
+
+            let a = selectedDayFrom;
+            do {
+                bookingHours.push(a);
+                a = addMinutes(a, 30);
+            } while (isBefore(addMinutes(a, length), selectedDayTo));
+        }
+    }
 
     function prevMonth() {
         setActiveMonthDate(prev => {
@@ -42,7 +78,7 @@ export default function TimePicker({ bookingTimes }: { bookingTimes: BookingTime
         });
     }
 
-    function handleDayClick(day:Date) {
+    function handleDayClick(day: Date) {
         setSelectedDay(day);
     }
 
@@ -97,7 +133,11 @@ export default function TimePicker({ bookingTimes }: { bookingTimes: BookingTime
                 </div>
             </div>
             <div className="border border-black">
-                time buttons
+                {bookingHours.map(bookingTime => (
+                    <div>
+                        <button>{format(bookingTime, 'HH:mm')}</button>
+                    </div>
+                ))}
             </div>
         </div>
     );
