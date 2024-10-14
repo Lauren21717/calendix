@@ -3,7 +3,7 @@ import { Noto_Sans } from "next/font/google";
 import "./../globals.css";
 import Header from "@/app/components/Header";
 
-const noto = Noto_Sans({ subsets: ['latin'], weight: ['200', '300', '400', '700', '800'] });
+const noto = Noto_Sans({ subsets: ['latin'], weight: ['100', '200', '300', '400', '500', '600', '700', '800'] });
 
 export const metadata: Metadata = {
   title: "Calendix",

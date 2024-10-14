@@ -83,11 +83,11 @@ export default function TimePicker({
     }
 
     return (
-        <div className="flex gap-4">
-            <div>
+        <div className="flex">
+            <div className="p-8">
                 <div className="flex items-center">
                     <span className="grow">
-                        {format(new Date(activeYear, activeMonthIndex), "MMMM")} {activeYear}:
+                        {format(new Date(activeYear, activeMonthIndex), "MMMM")} {activeYear}
                     </span>
                     <button onClick={prevMonth}>
                         <ChevronLeft />
@@ -132,13 +132,25 @@ export default function TimePicker({
                     })}
                 </div>
             </div>
-            <div className="border border-black">
-                {bookingHours.map(bookingTime => (
-                    <div>
-                        <button>{format(bookingTime, 'HH:mm')}</button>
+
+            {selectedDay && (
+                <div className="pt-8 pl-2 overflow-auto pr-8 w-48">
+                    <p className="text-left text-sm">
+                        {format(selectedDay, "EEEE, MMMM d")}
+                    </p>
+
+                    <div className="grid gap-1 mt-2 max-h-52">
+                        {bookingHours.map(bookingTime => (
+                            <div>
+                                <button className="w-full block border-2 rounded-lg border-blue-600 text-blue-600 font-semibold">
+                                    {format(bookingTime, 'HH:mm')}
+                                </button>
+                            </div>
+                        ))}
+                        <div className="mb-8">&nbsp;</div>
                     </div>
-                ))}
-            </div>
+                </div>
+            )}
         </div>
     );
 }
