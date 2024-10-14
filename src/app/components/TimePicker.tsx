@@ -10,13 +10,18 @@ import {
 } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function TimePicker({
     bookingTimes,
     length,
+    meetingUri,
+    username,
 }: {
     bookingTimes: BookingTimes;
     length: number;
+    meetingUri: string;
+    username: string;
 }) {
     const currentDate = new Date();
     const [activeMonthDate, setActiveMonthDate] = useState(currentDate);
@@ -142,9 +147,12 @@ export default function TimePicker({
                     <div className="grid gap-1 mt-2 max-h-52">
                         {bookingHours.map(bookingTime => (
                             <div>
-                                <button className="w-full block border-2 rounded-lg border-blue-600 text-blue-600 font-semibold">
+                                <Link
+                                    href={`/${username}/${meetingUri}/${bookingTime.toISOString()}`}
+                                    className="w-full block border-2 rounded-lg border-blue-600 text-blue-600 font-semibold"
+                                >
                                     {format(bookingTime, 'HH:mm')}
-                                </button>
+                                </Link>
                             </div>
                         ))}
                         <div className="mb-8">&nbsp;</div>

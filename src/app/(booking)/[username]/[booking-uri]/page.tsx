@@ -44,6 +44,8 @@ export default async function BookingPage(props: PageProps) {
                     </div>
                     <div className="bg-white/80 grow">
                         <TimePicker
+                            username={props.params.username}
+                            meetingUri={etDoc.uri}
                             length={etDoc.length}
                             bookingTimes={JSON.parse(JSON.stringify(etDoc.bookingTimes))}
                         />
