@@ -26,6 +26,7 @@
 }
 
 form input[type="text"],
+form input[type="email"],
 form input[type="number"],
 form select,
 form textarea{
@@ -33,6 +34,7 @@ form textarea{
 }
 
 form input[type="text"],
+form input[type="email"],
 form input[type="number"],
 form textarea{
   @apply block w-full p-2;
