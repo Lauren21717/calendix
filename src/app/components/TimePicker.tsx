@@ -4,13 +4,17 @@ import { BookingTimes, WeekdayName } from "@/libs/types";
 import clsx from "clsx";
 import {
     addDays, addMinutes, addMonths,
-    format, getDay, isBefore, isEqual,
+    endOfDay,
+    format, getDay, isAfter, isBefore, isEqual,
     isFuture, isLastDayOfMonth, isToday,
+    startOfDay,
     subMonths
 } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import axios from "axios";
+import { TimeSlot } from "nylas";
 
 export default function TimePicker({
     bookingTimes,
@@ -28,6 +32,49 @@ export default function TimePicker({
     const [activeMonthIndex, setActiveMonthIndex] = useState(activeMonthDate.getMonth());
     const [activeYear, setActiveYear] = useState(activeMonthDate.getFullYear());
     const [selectedDay, setSelectedDay] = useState<null | Date>(null);
+    const [busySlots, setBusySlots] = useState<TimeSlot[]>([]);
+    const [busySlotsLoaded, setBusySlotsLoaded] = useState(false);
+
+    useEffect(() => {
+        if (selectedDay) {
+            setBusySlots([]);
+            setBusySlotsLoaded(false);
+            const params = new URLSearchParams();
+            params.set('username', username);
+            params.set('from', startOfDay(selectedDay).toISOString());
+            params.set('to', endOfDay(selectedDay).toISOString());
+            axios
+                .get(`/api/busy?` + params.toString())
+                .then(response => {
+                    setBusySlots(response.data);
+                    setBusySlotsLoaded(true);
+                });
+        }
+    }, [selectedDay]);
+
+    function withinBusySlots(time: Date) {
+        const bookingFrom = time;
+        const bookingTo = addMinutes(new Date(time), length);
+
+        for (let busySlot of busySlots) {
+            const busyFrom = new Date(parseInt(busySlot.startTime) * 1000);
+            const busyTo = new Date(parseInt(busySlot.endTime) * 1000);
+            if (isAfter(bookingTo, busyFrom) && isBefore(bookingTo, busyTo)) {
+                return true;
+            }
+            if (isAfter(bookingFrom, busyFrom) && isBefore(bookingFrom, busyTo)) {
+                return true;
+            }
+            if (isEqual(bookingFrom, busyFrom)) {
+                return true;
+            }
+            if (isEqual(bookingTo, busyTo)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     const firstDayOfCurrentMonth = new Date(activeYear, activeMonthIndex, 1);
     const firstDayOfCurrentMonthWeekdayIndex = getDay(firstDayOfCurrentMonth);
@@ -46,7 +93,6 @@ export default function TimePicker({
         const weekdayNameIndex = format(selectedDay, "EEEE").toLowerCase() as WeekdayName;
         selectedDayConfig = bookingTimes?.[weekdayNameIndex];
         if (selectedDayConfig) {
-
             const [hoursFrom, minutesFrom] = selectedDayConfig.from.split(':');
             const selectedDayFrom = new Date(selectedDay);
             selectedDayFrom.setHours(parseInt(hoursFrom));
@@ -59,7 +105,9 @@ export default function TimePicker({
 
             let a = selectedDayFrom;
             do {
-                bookingHours.push(a);
+                if (!withinBusySlots(a)) {
+                    bookingHours.push(a);
+                }
                 a = addMinutes(a, 30);
             } while (isBefore(addMinutes(a, length), selectedDayTo));
         }
@@ -92,7 +140,7 @@ export default function TimePicker({
             <div className="p-8">
                 <div className="flex items-center">
                     <span className="grow">
-                        {format(new Date(activeYear, activeMonthIndex), "MMMM")} {activeYear}
+                        {format(new Date(activeYear, activeMonthIndex, 1), "MMMM")} {activeYear}
                     </span>
                     <button onClick={prevMonth}>
                         <ChevronLeft />
@@ -138,14 +186,14 @@ export default function TimePicker({
                 </div>
             </div>
 
-            {selectedDay && (
+            {selectedDay &&(
                 <div className="pt-8 pl-2 overflow-auto pr-8 w-48">
                     <p className="text-left text-sm">
                         {format(selectedDay, "EEEE, MMMM d")}
                     </p>
 
                     <div className="grid gap-1 mt-2 max-h-52">
-                        {bookingHours.map(bookingTime => (
+                        {busySlotsLoaded && bookingHours.map(bookingTime => (
                             <div>
                                 <Link
                                     href={`/${username}/${meetingUri}/${bookingTime.toISOString()}`}
