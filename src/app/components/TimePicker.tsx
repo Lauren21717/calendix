@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { TimeSlot } from "nylas";
+import { PacmanLoader } from "react-spinners";
 
 export default function TimePicker({
     bookingTimes,
@@ -193,6 +194,11 @@ export default function TimePicker({
                     </p>
 
                     <div className="grid gap-1 mt-2 max-h-52">
+                        {!busySlotsLoaded && (
+                            <div className="flex justify-center py-4">
+                                <PacmanLoader color="#3B82F6" />
+                            </div>
+                        )}
                         {busySlotsLoaded && bookingHours.map(bookingTime => (
                             <div>
                                 <Link
