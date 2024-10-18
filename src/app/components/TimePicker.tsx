@@ -153,12 +153,14 @@ export default function TimePicker({
 
                 <div className="inline-grid gap-2 grid-cols-7 mt-2">
                     {weekdaysShortNames.map((weekdaysShortNames) => (
-                        <div className="text-center uppercase text-sm text-gray-500 font-bold">
+                        <div
+                            key={weekdaysShortNames}
+                            className="text-center uppercase text-sm text-gray-500 font-bold">
                             {weekdaysShortNames}
                         </div>
                     ))}
-                    {emptyDaysArr.map(empty => (
-                        <div></div>
+                    {emptyDaysArr.map((empty, emptyIndex) => (
+                        <div key={emptyIndex} />
                     ))}
                     {daysNumbers.map(n => {
                         const weekdayNameIndex = format(n, "EEEE").toLowerCase() as WeekdayName;
@@ -168,7 +170,9 @@ export default function TimePicker({
                         const isSelected = selectedDay && isEqual(n, selectedDay);
 
                         return (
-                            <div className="text-center text-sm text-gray-400 font-bold">
+                            <div
+                                key={n.toISOString()}
+                                className="text-center text-sm text-gray-400 font-bold">
                                 <button
                                     disabled={!canBeBooked}
                                     onClick={() => handleDayClick(n)}
@@ -187,7 +191,7 @@ export default function TimePicker({
                 </div>
             </div>
 
-            {selectedDay &&(
+            {selectedDay && (
                 <div className="pt-8 pl-2 overflow-auto pr-8 w-48">
                     <p className="text-left text-sm">
                         {format(selectedDay, "EEEE, MMMM d")}
@@ -200,7 +204,7 @@ export default function TimePicker({
                             </div>
                         )}
                         {busySlotsLoaded && bookingHours.map(bookingTime => (
-                            <div>
+                            <div key={bookingTime.toISOString()}>
                                 <Link
                                     href={`/${username}/${meetingUri}/${bookingTime.toISOString()}`}
                                     className="w-full block border-2 rounded-lg border-blue-600 text-blue-600 font-semibold"
