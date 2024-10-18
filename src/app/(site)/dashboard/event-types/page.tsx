@@ -1,5 +1,4 @@
 'use server'
-import DashboardNav from "@/app/components/DashboardNav";
 import { EventTypeModel } from "@/models/EventType";
 import { session } from "@/libs/session";
 import mongoose from "mongoose";

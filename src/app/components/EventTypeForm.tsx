@@ -48,7 +48,7 @@ export default function EventTypeForm(
                 newBookingTimes[day] = { from: '00:00', to: '00:00', active: false };
             }
 
-            // @ts-ignore
+            // @ts-expect-error
             newBookingTimes[day][prop] = val;
 
             return newBookingTimes;
@@ -94,8 +94,6 @@ export default function EventTypeForm(
                     <span className="label">availability</span>
                     <div className="grid gap-2">
                         {weekdaysNames.map(day => {
-                            const from = bookingTimes?.[day]?.from;
-                            const to = bookingTimes?.[day]?.to;
                             const active = bookingTimes?.[day]?.active;
                             return (
                                 <div

@@ -51,13 +51,13 @@ export default function TimePicker({
                     setBusySlotsLoaded(true);
                 });
         }
-    }, [selectedDay]);
+    }, [selectedDay, username]);
 
     function withinBusySlots(time: Date) {
         const bookingFrom = time;
         const bookingTo = addMinutes(new Date(time), length);
 
-        for (let busySlot of busySlots) {
+        for (const busySlot of busySlots) {
             const busyFrom = new Date(parseInt(busySlot.startTime) * 1000);
             const busyTo = new Date(parseInt(busySlot.endTime) * 1000);
             if (isAfter(bookingTo, busyFrom) && isBefore(bookingTo, busyTo)) {

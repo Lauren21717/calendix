@@ -1,12 +1,17 @@
 export type FromTo = {
-    from: String;
-    to: String;
+    from: string;
+    to: string;
     active: boolean;
 };
 
-export type WeekdayName = 'monday' | 'tuesday'
-    | 'wednesday' | 'thursday' | 'friday'
-    | 'saturday' | 'sunday';
+export type WeekdayName = 
+    | 'monday' 
+    | 'tuesday' 
+    | 'wednesday' 
+    | 'thursday' 
+    | 'friday' 
+    | 'saturday' 
+    | 'sunday';
 
 export type BookingTimes = {
     monday?:FromTo;

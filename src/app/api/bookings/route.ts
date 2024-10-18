@@ -5,7 +5,6 @@ import { ProfileModel } from "@/models/Profile";
 import { addMinutes } from "date-fns";
 import mongoose from "mongoose";
 import { NextRequest } from "next/server";
-import { WhenType } from "nylas";
 
 type JsonData = {
     guestName: string;

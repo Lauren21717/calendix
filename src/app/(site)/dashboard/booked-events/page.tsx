@@ -16,7 +16,8 @@ export default async function DashboardPage() {
         <>
             <div className="mt-8">
                 {bookedEvents.map(booking => {
-                    const eventTypeDoc = eventTypeDocs.find(etd => (etd._id as string).toString() === booking.eventTypeId);
+                    const eventTypeDoc = eventTypeDocs
+                        .find(etd => (etd._id as string).toString() === booking.eventTypeId);
                     return (
                         <div
                             key={booking._id} 
