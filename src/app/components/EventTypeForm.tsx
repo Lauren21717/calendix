@@ -98,7 +98,9 @@ export default function EventTypeForm(
                             const to = bookingTimes?.[day]?.to;
                             const active = bookingTimes?.[day]?.active;
                             return (
-                                <div className="grid grid-cols-2 gap-2 items-cemter">
+                                <div
+                                    key={day}
+                                    className="grid grid-cols-2 gap-2 items-cemter">
                                     <label className="flex gap-1 capitalize !mb-0 !p-0">
                                         <input
                                             type="checkbox"

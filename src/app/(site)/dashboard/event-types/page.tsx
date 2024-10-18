@@ -13,13 +13,15 @@ export default async function EventTypesPage() {
     await mongoose.connect(process.env.MONGODB_URI as string);
     const email = await session().get('email');
     const eventTypes = await EventTypeModel.find({ email });
-    const profile = await ProfileModel.findOne({email});
+    const profile = await ProfileModel.findOne({ email });
 
     return (
         <div>
             <div className="border border-b-0 rounded-xl overflow-hidden my-4">
                 {eventTypes.map(et => (
-                    <div className="block p-2 border-b">
+                    <div
+                        key={et.id}
+                        className="block p-2 border-b">
                         <Link href={'/dashboard/event-types/edit/' + et.id}>
                             {et.title}
                         </Link>
